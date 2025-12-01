@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://c2fblspghiug7"]
+[gd_scene load_steps=11 format=3 uid="uid://c2fblspghiug7"]
 
 [ext_resource type="PackedScene" uid="uid://qmyxu3h5x66b" path="res://entities/player/Mage/mage_character_body_2d.tscn" id="1_2b7d3"]
 [ext_resource type="PackedScene" uid="uid://cynf30wlahial" path="res://terrain/terrain_manager_node_2d.tscn" id="1_mav38"]
@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://dslac264yjekj" path="res://HUD/game_over.tscn" id="7_gameover"]
 [ext_resource type="PackedScene" uid="uid://cukrccbnm3acq" path="res://HUD/pause_menu.tscn" id="8_pause"]
 [ext_resource type="PackedScene" path="res://entities/Environments/Keys/key_node_2d.tscn" id="9_key"]
+[ext_resource type="PackedScene" uid="uid://bpuwypg374ivm" path="res://entities/Environments/Flasks/flask_red_node_2d.tscn" id="10_og367"]
 
 [node name="WorldNode2D" type="Node2D"]
 y_sort_enabled = true
@@ -112,3 +113,4 @@ position = Vector2(257, 104)
 
 [node name="CrateNode2D" parent="." instance=ExtResource("4_3c8vw")]
 position = Vector2(641.89355, 39.669167)
+drop_scenes = Array[PackedScene]([ExtResource("10_og367")])

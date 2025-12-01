@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://qmyxu3h5x66b"]
+[gd_scene load_steps=18 format=3 uid="uid://qmyxu3h5x66b"]
 
 [ext_resource type="PackedScene" uid="uid://ctskcvs7nxu4e" path="res://entities/player/player_character_body_2d.tscn" id="1_h22r1"]
 [ext_resource type="Texture2D" uid="uid://t0hmsqnvaa7c" path="res://entities/player/Mage/Sprites/wizzard_m_idle_anim_f0.png" id="2_luext"]
@@ -11,7 +11,6 @@
 [ext_resource type="Texture2D" uid="uid://c0mpbr00vlg0a" path="res://entities/player/Mage/Sprites/wizzard_m_run_anim_f2.png" id="8_eembq"]
 [ext_resource type="Texture2D" uid="uid://cwsfqkk7mq86y" path="res://entities/player/Mage/Sprites/wizzard_m_run_anim_f3.png" id="9_0rk3v"]
 [ext_resource type="Texture2D" uid="uid://dfvwey8sw7ykr" path="res://entities/player/Mage/Staff/weapon_red_magic_staff.png" id="11_8f32o"]
-[ext_resource type="Script" uid="uid://bp27mc01s6y16" path="res://entities/player/Mage/camera_2d.gd" id="12_eimj0"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_ehqxe"]
 animations = [{
@@ -174,6 +173,6 @@ position = Vector2(18, -4)
 
 [node name="Camera2D" parent="." index="4"]
 limit_smoothed = true
-script = ExtResource("12_eimj0")
+terrain_path = NodePath("../TerrainManagerNode2D")
 
 [connection signal="animation_finished" from="StaffNode2D/StaffAnimationPlayer" to="." method="_on_staff_animation_player_animation_finished"]

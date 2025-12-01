@@ -1,10 +1,11 @@
 [gd_scene load_steps=6 format=3 uid="uid://ctskcvs7nxu4e"]
 
+[ext_resource type="Script" uid="uid://bp27mc01s6y16" path="res://entities/player/Mage/camera_2d.gd" id="1_cam"]
 [ext_resource type="Script" uid="uid://dib2lc2utu6xy" path="res://entities/player/player_character_body_2d.gd" id="1_yo3wp"]
-[ext_resource type="Script" path="res://entities/player/Mage/camera_2d.gd" id="1_cam"]
 [ext_resource type="PackedScene" uid="uid://bio5e71ly3ea5" path="res://mechanics/hit_box_area_2d.tscn" id="2_yo3wp"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_rcxmu"]
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_yo3wp"]
 radius = 6.0
 
@@ -12,6 +13,7 @@ radius = 6.0
 script = ExtResource("1_yo3wp")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+y_sort_enabled = true
 sprite_frames = SubResource("SpriteFrames_rcxmu")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
