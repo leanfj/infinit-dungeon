@@ -27,7 +27,7 @@ func _level_up() -> void:
 	level += 1
 	# Simple scaling: increase thresholds and stats modestly.
 	experience_to_next = int(experience_to_next * 1.2) + 1
-	max_health += 1
+	max_health += 2
 	current_health = max_health
 	damage += 1
 	move_speed += 5.0

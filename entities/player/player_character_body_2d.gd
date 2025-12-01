@@ -55,8 +55,10 @@ func _ready() -> void:
 
 func heal(amount: int, max_cap: int = -1) -> void:
 	var cap: int = _max_health
+	if stats is CharacterStats:
+		cap = (stats as CharacterStats).max_health
 	if max_cap >= 0:
-		cap = min(max_cap, _max_health)
+		cap = min(max_cap, cap)
 	_player_health = clamp(_player_health + amount, 0, cap)
 	if stats is CharacterStats:
 		(stats as CharacterStats).current_health = _player_health
@@ -83,6 +85,9 @@ func _sync_from_stats() -> void:
 
 
 func _on_stats_leveled_up(_new_level: int) -> void:
+	if stats is CharacterStats:
+		var cs := stats as CharacterStats
+		cs.current_health = cs.max_health
 	_sync_from_stats()
 	_update_level_label()
 

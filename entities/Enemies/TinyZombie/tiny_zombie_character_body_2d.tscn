@@ -92,6 +92,7 @@ radius = 6.46892
 radius = 5.628802
 
 [node name="TinyZombieCharacterBody2D" node_paths=PackedStringArray("_animation_sprite") instance=ExtResource("1_io6xf")]
+exp_reward = 1
 _animation_sprite = NodePath("AnimatedSprite2D")
 
 [node name="AnimatedSprite2D" parent="." index="0"]
@@ -107,8 +108,7 @@ rotation = 1.5707964
 shape = SubResource("CapsuleShape2D_201g8")
 
 [node name="HurtBoxArea2D" parent="." index="2" instance=ExtResource("11_5ggfw")]
-collision_mask = 256
-target_groups = ["player"]
+target_groups = Array[String](["player"])
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="HurtBoxArea2D" index="1"]
 position = Vector2(0.14066505, 0.088567734)

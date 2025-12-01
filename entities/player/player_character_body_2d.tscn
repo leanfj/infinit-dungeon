@@ -30,5 +30,6 @@ terrain_path = NodePath("../../../TerrainManagerNode2D")
 [node name="LevelLabel" type="Label" parent="."]
 offset_left = -8.0
 offset_top = -24.0
+theme_override_font_sizes/font_size = 8
 text = "Lv 1"
 horizontal_alignment = 1
