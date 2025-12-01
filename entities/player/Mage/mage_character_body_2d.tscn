@@ -142,24 +142,22 @@ _animation_weapon = NodePath("StaffNode2D/StaffAnimationPlayer")
 _weapon_node = NodePath("StaffNode2D")
 _fire_ball_marker = NodePath("StaffNode2D/FireBallMarker2D")
 
-[node name="AnimatedSprite2D" parent="." index="0"]
+[node name="AnimatedSprite2D" parent="." index="1"]
 sprite_frames = SubResource("SpriteFrames_ehqxe")
-animation = &"hurt"
+animation = &"idle"
 autoplay = "idle"
+frame_progress = 0.5493902
 
-[node name="CollisionShape2D" parent="." index="1"]
+[node name="CollisionShape2D" parent="." index="2"]
 position = Vector2(0, 11)
 rotation = 1.5707964
 shape = SubResource("CapsuleShape2D_xr08a")
 
-[node name="CollisionShape2D2" parent="HitBoxArea2D" index="0"]
-position = Vector2(0, 2)
-
 [node name="StaffNode2D" type="Node2D" parent="." index="3"]
-position = Vector2(0, 7)
+position = Vector2(1.1461716, 7.2292347)
 
 [node name="StaffSprite2D" type="Sprite2D" parent="StaffNode2D" index="0"]
-position = Vector2(10.000001, -5.0000005)
+position = Vector2(0.3928318, 1.007762)
 rotation = 0.4607669
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("11_8f32o")
@@ -171,9 +169,12 @@ libraries = {
 }
 
 [node name="FireBallMarker2D" type="Marker2D" parent="StaffNode2D" index="2"]
-position = Vector2(18, -4)
+position = Vector2(10.457039, 0.8873863)
 
-[node name="Camera2D" parent="." index="4"]
+[node name="CollisionShape2D2" parent="HitBoxArea2D" index="0"]
+position = Vector2(0, 2)
+
+[node name="Camera2D" parent="." index="5"]
 limit_smoothed = true
 terrain_path = NodePath("../TerrainManagerNode2D")
 

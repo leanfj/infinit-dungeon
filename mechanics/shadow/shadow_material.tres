@@ -1,0 +1,11 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://bxk7y8waw10qr"]
+
+[ext_resource type="Shader" uid="uid://dv76v0jm8gdpn" path="res://mechanics/shadow/shadow.gdshader" id="1_shader"]
+
+[resource]
+shader = ExtResource("1_shader")
+shader_parameter/shadow_color = Color(0, 0, 0, 0.4)
+shader_parameter/shadow_width = 0.9
+shader_parameter/shadow_height = 0.4
+shader_parameter/shadow_softness = 0.4
+shader_parameter/shadow_offset = Vector2(0, 0)

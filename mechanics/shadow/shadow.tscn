@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://cf5m8n9p12xyz"]
+
+[ext_resource type="Material" path="res://mechanics/shadow/shadow_material.tres" id="1_material"]
+[ext_resource type="Script" path="res://mechanics/shadow/shadow.gd" id="2_script"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_shadow"]
+size = Vector2(24, 12)
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_shadow"]
+
+[node name="Shadow" type="MeshInstance2D"]
+material = ExtResource("1_material")
+mesh = SubResource("QuadMesh_shadow")
+texture = SubResource("PlaceholderTexture2D_shadow")
+script = ExtResource("2_script")
+auto_resize = true
+width_scale = 1.2
+height_scale = 0.4
+vertical_offset = 0.0

@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://ctskcvs7nxu4e"]
+[gd_scene load_steps=7 format=3 uid="uid://ctskcvs7nxu4e"]
 
 [ext_resource type="Script" uid="uid://bp27mc01s6y16" path="res://entities/player/Mage/camera_2d.gd" id="1_cam"]
 [ext_resource type="Script" uid="uid://dib2lc2utu6xy" path="res://entities/player/player_character_body_2d.gd" id="1_yo3wp"]
 [ext_resource type="PackedScene" uid="uid://bio5e71ly3ea5" path="res://mechanics/hit_box_area_2d.tscn" id="2_yo3wp"]
+[ext_resource type="PackedScene" uid="uid://cf5m8oap12xy0" path="res://mechanics/shadow/shadow.tscn" id="3_shadow"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_rcxmu"]
 
@@ -10,7 +11,13 @@
 radius = 6.0
 
 [node name="PlayerCharacterBody2D" type="CharacterBody2D"]
+z_index = 1
 script = ExtResource("1_yo3wp")
+
+[node name="Shadow" parent="." instance=ExtResource("3_shadow")]
+z_index = -1
+offset_top = 14.0
+offset_bottom = 30.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 y_sort_enabled = true
