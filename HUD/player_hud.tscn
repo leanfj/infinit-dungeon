@@ -1,0 +1,15 @@
+[gd_scene load_steps=6 format=3 uid="uid://b0yepkqyf5e8f"]
+
+[ext_resource type="Script" uid="uid://d380lu2cx6u4i" path="res://HUD/player_hud.gd" id="1_gd1la"]
+[ext_resource type="Texture2D" uid="uid://c6y82kmd5vr11" path="res://HUD/ui_heart_full.png" id="2_tex_full"]
+[ext_resource type="Texture2D" uid="uid://b14a8r71v64tb" path="res://HUD/ui_heart_half.png" id="3_tex_half"]
+[ext_resource type="Texture2D" uid="uid://ccj2m14j5lrkf" path="res://HUD/ui_heart_empty.png" id="4_tex_empty"]
+[ext_resource type="Texture2D" uid="uid://c7drggdbg50p5" path="res://entities/Environments/Keys/keys_2_3.png" id="5_85nku"]
+
+[node name="PlayerHUD" type="CanvasLayer"]
+layer = 10
+script = ExtResource("1_gd1la")
+full_heart = ExtResource("2_tex_full")
+half_heart = ExtResource("3_tex_half")
+empty_heart = ExtResource("4_tex_empty")
+key_icon = ExtResource("5_85nku")

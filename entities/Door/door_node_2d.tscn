@@ -1,0 +1,57 @@
+[gd_scene load_steps=9 format=3 uid="uid://ba6lhlakewrdi"]
+
+[ext_resource type="Texture2D" uid="uid://c31tno4echgdx" path="res://assets/doors_leaf_closed.png" id="1_yg6lh"]
+[ext_resource type="Texture2D" uid="uid://dgijcp7c1xqbh" path="res://assets/doors_leaf_open.png" id="2_4d4u7"]
+[ext_resource type="Texture2D" uid="uid://b22v0g8nh585j" path="res://assets/doors_frame_top.png" id="3_joim1"]
+[ext_resource type="Texture2D" uid="uid://bb7vus43kbqqd" path="res://assets/doors_frame_left.png" id="4_7381p"]
+[ext_resource type="Texture2D" uid="uid://2lpck6bct6sp" path="res://assets/doors_frame_right.png" id="5_axuun"]
+[ext_resource type="Script" uid="uid://bd1xw5ln2or" path="res://entities/Door/door_node_2d.gd" id="6_script"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_0jm37"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_yg6lh")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_4d4u7")
+}],
+"loop": false,
+"name": &"open",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_joim1"]
+size = Vector2(48, 36)
+
+[node name="DoorNode2D" type="Node2D"]
+script = ExtResource("6_script")
+
+[node name="CharacterBody2D" type="CharacterBody2D" parent="." groups=["walls"]]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="CharacterBody2D"]
+sprite_frames = SubResource("SpriteFrames_0jm37")
+animation = &"open"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
+position = Vector2(0, 3)
+shape = SubResource("RectangleShape2D_joim1")
+
+[node name="Area2D" type="Area2D" parent="CharacterBody2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D/Area2D"]
+shape = SubResource("RectangleShape2D_joim1")
+
+[node name="TopDoorSprite2D" type="Sprite2D" parent="CharacterBody2D"]
+position = Vector2(0, -24)
+texture = ExtResource("3_joim1")
+
+[node name="LeftWallDoorSprite2D" type="Sprite2D" parent="CharacterBody2D"]
+position = Vector2(-24, 0)
+texture = ExtResource("4_7381p")
+
+[node name="RightWallDoorSprite2D" type="Sprite2D" parent="CharacterBody2D"]
+position = Vector2(24, 0)
+texture = ExtResource("5_axuun")
+
+[connection signal="body_entered" from="CharacterBody2D/Area2D" to="." method="_on_area_2d_body_entered"]

@@ -1,0 +1,50 @@
+[gd_scene load_steps=3 format=3 uid="uid://cukrccbnm3acq"]
+
+[ext_resource type="Script" uid="uid://de68s1hauu6tk" path="res://HUD/pause_menu.gd" id="1_pause"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pause"]
+bg_color = Color(0, 0, 0, 0.6156863)
+
+[node name="PauseMenu" type="CanvasLayer"]
+layer = 15
+script = ExtResource("1_pause")
+
+[node name="Control" type="Panel" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_pause")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -60.0
+offset_top = -60.0
+offset_right = 60.0
+offset_bottom = 60.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="Control/VBoxContainer"]
+layout_mode = 2
+text = "Pause"
+horizontal_alignment = 1
+
+[node name="ResumeButton" type="Button" parent="Control/VBoxContainer"]
+layout_mode = 2
+text = "Retomar"
+
+[node name="RestartButton" type="Button" parent="Control/VBoxContainer"]
+layout_mode = 2
+text = "Reiniciar"
+
+[node name="QuitButton" type="Button" parent="Control/VBoxContainer"]
+layout_mode = 2
+text = "Sair"

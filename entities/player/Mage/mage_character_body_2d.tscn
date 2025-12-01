@@ -1,0 +1,179 @@
+[gd_scene load_steps=19 format=3 uid="uid://qmyxu3h5x66b"]
+
+[ext_resource type="PackedScene" uid="uid://ctskcvs7nxu4e" path="res://entities/player/player_character_body_2d.tscn" id="1_h22r1"]
+[ext_resource type="Texture2D" uid="uid://t0hmsqnvaa7c" path="res://entities/player/Mage/Sprites/wizzard_m_idle_anim_f0.png" id="2_luext"]
+[ext_resource type="Texture2D" uid="uid://blfy4i6rnjy" path="res://entities/player/Mage/Sprites/wizzard_m_hit_anim_f0.png" id="2_xr08a"]
+[ext_resource type="Texture2D" uid="uid://dqg83s34o7rup" path="res://entities/player/Mage/Sprites/wizzard_m_idle_anim_f1.png" id="3_xr08a"]
+[ext_resource type="Texture2D" uid="uid://c2wwmldf6isuh" path="res://entities/player/Mage/Sprites/wizzard_m_idle_anim_f2.png" id="4_8f32o"]
+[ext_resource type="Texture2D" uid="uid://cijiyydivqbb6" path="res://entities/player/Mage/Sprites/wizzard_m_idle_anim_f3.png" id="5_eimj0"]
+[ext_resource type="Texture2D" uid="uid://bt222kv660j1i" path="res://entities/player/Mage/Sprites/wizzard_m_run_anim_f0.png" id="6_diqys"]
+[ext_resource type="Texture2D" uid="uid://pjll5tjtjxd8" path="res://entities/player/Mage/Sprites/wizzard_m_run_anim_f1.png" id="7_l3s6d"]
+[ext_resource type="Texture2D" uid="uid://c0mpbr00vlg0a" path="res://entities/player/Mage/Sprites/wizzard_m_run_anim_f2.png" id="8_eembq"]
+[ext_resource type="Texture2D" uid="uid://cwsfqkk7mq86y" path="res://entities/player/Mage/Sprites/wizzard_m_run_anim_f3.png" id="9_0rk3v"]
+[ext_resource type="Texture2D" uid="uid://dfvwey8sw7ykr" path="res://entities/player/Mage/Staff/weapon_red_magic_staff.png" id="11_8f32o"]
+[ext_resource type="Script" uid="uid://bp27mc01s6y16" path="res://entities/player/Mage/camera_2d.gd" id="12_eimj0"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ehqxe"]
+animations = [{
+"frames": [],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_xr08a")
+}],
+"loop": true,
+"name": &"hurt",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_luext")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_xr08a")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_8f32o")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_eimj0")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_diqys")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_l3s6d")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_eembq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_0rk3v")
+}],
+"loop": true,
+"name": &"run",
+"speed": 10.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_xr08a"]
+radius = 3.0
+height = 14.0
+
+[sub_resource type="Animation" id="Animation_eimj0"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("StaffNode2D/StaffSprite2D:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0.5, 0.5)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("StaffNode2D/StaffSprite2D:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.4607669]
+}
+
+[sub_resource type="Animation" id="Animation_8f32o"]
+resource_name = "primary_attack"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("StaffNode2D/StaffSprite2D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.14907582, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.4607669, 1.4852751, 0.4607669225265026]
+}
+
+[sub_resource type="Animation" id="Animation_diqys"]
+resource_name = "secondary_attack"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("StaffNode2D/StaffSprite2D:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.15, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0.5, 0.5), Vector2(-0.5, 0.5), Vector2(0.5, 0.5)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_diqys"]
+_data = {
+&"RESET": SubResource("Animation_eimj0"),
+&"primary_attack": SubResource("Animation_8f32o"),
+&"secondary_attack": SubResource("Animation_diqys")
+}
+
+[node name="MageCharacterBody2D" node_paths=PackedStringArray("_animation_sprite", "_animation_weapon", "_weapon_node", "_fire_ball_marker") groups=["player"] instance=ExtResource("1_h22r1")]
+_primary_attack_name = "primary_attack"
+_secondary_attack_name = "secondary_attack"
+_animation_sprite = NodePath("AnimatedSprite2D")
+_animation_weapon = NodePath("StaffNode2D/StaffAnimationPlayer")
+_weapon_node = NodePath("StaffNode2D")
+_fire_ball_marker = NodePath("StaffNode2D/FireBallMarker2D")
+
+[node name="AnimatedSprite2D" parent="." index="0"]
+sprite_frames = SubResource("SpriteFrames_ehqxe")
+animation = &"hurt"
+autoplay = "idle"
+
+[node name="CollisionShape2D" parent="." index="1"]
+position = Vector2(0, 11)
+rotation = 1.5707964
+shape = SubResource("CapsuleShape2D_xr08a")
+
+[node name="CollisionShape2D2" parent="HitBoxArea2D" index="0"]
+position = Vector2(0, 2)
+
+[node name="StaffNode2D" type="Node2D" parent="." index="3"]
+position = Vector2(0, 7)
+
+[node name="StaffSprite2D" type="Sprite2D" parent="StaffNode2D" index="0"]
+position = Vector2(10.000001, -5.0000005)
+rotation = 0.4607669
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("11_8f32o")
+
+[node name="StaffAnimationPlayer" type="AnimationPlayer" parent="StaffNode2D" index="1"]
+root_node = NodePath("../..")
+libraries = {
+&"": SubResource("AnimationLibrary_diqys")
+}
+
+[node name="FireBallMarker2D" type="Marker2D" parent="StaffNode2D" index="2"]
+position = Vector2(18, -4)
+
+[node name="Camera2D" parent="." index="4"]
+limit_smoothed = true
+script = ExtResource("12_eimj0")
+
+[connection signal="animation_finished" from="StaffNode2D/StaffAnimationPlayer" to="." method="_on_staff_animation_player_animation_finished"]

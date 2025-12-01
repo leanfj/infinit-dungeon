@@ -1,0 +1,83 @@
+[gd_scene load_steps=14 format=3 uid="uid://12th3l3owrko"]
+
+[ext_resource type="Texture2D" uid="uid://b6amijgv7nm8a" path="res://entities/player/Mage/FireBall/B500-2.PNG" id="1_nmde5"]
+[ext_resource type="Script" uid="uid://dn57nal02srkf" path="res://entities/player/Mage/FireBall/fire_ball_node_2d.gd" id="1_r4lh0"]
+[ext_resource type="Texture2D" uid="uid://doeva0ca6oc0q" path="res://entities/player/Mage/FireBall/B500-3.PNG" id="2_r4lh0"]
+[ext_resource type="Texture2D" uid="uid://b887w22hj055l" path="res://entities/player/Mage/FireBall/B500-4.PNG" id="3_p7ej3"]
+[ext_resource type="Texture2D" uid="uid://b1msqc0gh35y1" path="res://entities/player/Mage/FireBall/FB500-1.png" id="4_gk4as"]
+[ext_resource type="Texture2D" uid="uid://qnlblqnmg3sc" path="res://entities/player/Mage/FireBall/FB500-2.png" id="5_1l1ig"]
+[ext_resource type="Texture2D" uid="uid://cnu8fjol3yx82" path="res://entities/player/Mage/FireBall/FB500-3.png" id="6_jjal5"]
+[ext_resource type="Texture2D" uid="uid://chknk7f70kr58" path="res://entities/player/Mage/FireBall/FB500-4.png" id="7_cxjs8"]
+[ext_resource type="Texture2D" uid="uid://dkxwbke32diqc" path="res://entities/player/Mage/FireBall/FB500-5.png" id="8_w6h24"]
+[ext_resource type="PackedScene" uid="uid://cnawrd5f0kquw" path="res://mechanics/hurt_box_area_2d.tscn" id="10_p7ej3"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_nmde5"]
+radius = 6.0
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_6l1a0"]
+animations = [{
+"frames": [],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_nmde5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_r4lh0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_p7ej3")
+}],
+"loop": false,
+"name": &"hit",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_gk4as")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_1l1ig")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_jjal5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_cxjs8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_w6h24")
+}],
+"loop": true,
+"name": &"travel",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_p7ej3"]
+radius = 6.2500033
+
+[node name="FireBallNode2D" type="Area2D"]
+scale = Vector2(0.47999978, 0.47999978)
+script = ExtResource("1_r4lh0")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_nmde5")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.03515625, 0.03515625)
+sprite_frames = SubResource("SpriteFrames_6l1a0")
+animation = &"travel"
+
+[node name="HurtBoxArea2D" parent="." instance=ExtResource("10_p7ej3")]
+collision_layer = 4096
+collision_mask = 384
+target_groups = ["enemies", "environments"]
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="HurtBoxArea2D"]
+shape = SubResource("CircleShape2D_p7ej3")
+debug_color = Color(0.94298196, 0.14780775, 0.47875196, 0.41960785)
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

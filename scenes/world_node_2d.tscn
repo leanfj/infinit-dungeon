@@ -1,0 +1,114 @@
+[gd_scene load_steps=10 format=3 uid="uid://c2fblspghiug7"]
+
+[ext_resource type="PackedScene" uid="uid://qmyxu3h5x66b" path="res://entities/player/Mage/mage_character_body_2d.tscn" id="1_2b7d3"]
+[ext_resource type="PackedScene" uid="uid://cynf30wlahial" path="res://terrain/terrain_manager_node_2d.tscn" id="1_mav38"]
+[ext_resource type="PackedScene" uid="uid://csrhpvgctjy0n" path="res://entities/Enemies/TinyZombie/tiny_zombie_character_body_2d.tscn" id="3_s7fe2"]
+[ext_resource type="PackedScene" uid="uid://clhr7bec6px7p" path="res://entities/Environments/Crate/crate_node_2d.tscn" id="4_3c8vw"]
+[ext_resource type="PackedScene" path="res://mechanics/enemy_spawner.tscn" id="5_spawner"]
+[ext_resource type="PackedScene" uid="uid://b0yepkqyf5e8f" path="res://HUD/player_hud.tscn" id="6_hud"]
+[ext_resource type="PackedScene" uid="uid://dslac264yjekj" path="res://HUD/game_over.tscn" id="7_gameover"]
+[ext_resource type="PackedScene" uid="uid://cukrccbnm3acq" path="res://HUD/pause_menu.tscn" id="8_pause"]
+[ext_resource type="PackedScene" path="res://entities/Environments/Keys/key_node_2d.tscn" id="9_key"]
+
+[node name="WorldNode2D" type="Node2D"]
+y_sort_enabled = true
+
+[node name="TerrainManagerNode2D" parent="." instance=ExtResource("1_mav38")]
+
+[node name="MageCharacterBody2D" parent="." instance=ExtResource("1_2b7d3")]
+position = Vector2(84, 59)
+_move_speed = 100.0
+
+[node name="EnemySpawner" parent="." instance=ExtResource("5_spawner")]
+position = Vector2(-11.969269, 1.0263138)
+enemy_scenes = Array[PackedScene]([ExtResource("3_s7fe2")])
+max_total_spawns = 3
+respawn_delay = 2.0
+target_path = NodePath("../MageCharacterBody2D")
+spawn_point_limits = {
+"SpawnPoint1": 1,
+"SpawnPoint2": 1,
+"SpawnPoint3": 1,
+"SpawnPoint4": 1
+}
+key_scene = ExtResource("9_key")
+random_spawn = false
+
+[node name="SpawnPoint1" type="Marker2D" parent="EnemySpawner"]
+position = Vector2(218, 95)
+
+[node name="SpawnPoint2" type="Marker2D" parent="EnemySpawner"]
+position = Vector2(250, 57)
+
+[node name="SpawnPoint3" type="Marker2D" parent="EnemySpawner"]
+position = Vector2(257, 104)
+
+[node name="EnemySpawner2" parent="." instance=ExtResource("5_spawner")]
+position = Vector2(595.15985, -0.118652344)
+enemy_scenes = Array[PackedScene]([ExtResource("3_s7fe2")])
+max_alive = 6
+initial_spawn = 6
+max_total_spawns = 6
+respawn_delay = 2.0
+target_path = NodePath("../MageCharacterBody2D")
+spawn_point_limits = {
+"SpawnPoint1": 1,
+"SpawnPoint2": 1,
+"SpawnPoint3": 1,
+"SpawnPoint4": 1,
+"SpawnPoint5": 1,
+"SpawnPoint6": 1
+}
+key_scene = ExtResource("9_key")
+random_spawn = false
+
+[node name="SpawnPoint1" type="Marker2D" parent="EnemySpawner2"]
+position = Vector2(292.17462, 69.80861)
+
+[node name="SpawnPoint2" type="Marker2D" parent="EnemySpawner2"]
+position = Vector2(245.80139, 49.53589)
+
+[node name="SpawnPoint3" type="Marker2D" parent="EnemySpawner2"]
+position = Vector2(280.77014, 47.686592)
+
+[node name="SpawnPoint4" type="Marker2D" parent="EnemySpawner2"]
+position = Vector2(101.42731, 61.88521)
+
+[node name="SpawnPoint5" type="Marker2D" parent="EnemySpawner2"]
+position = Vector2(54.53595, 103.5335)
+
+[node name="SpawnPoint6" type="Marker2D" parent="EnemySpawner2"]
+position = Vector2(73.19623, 72.74401)
+
+[node name="EnemySpawner3" parent="." instance=ExtResource("5_spawner")]
+position = Vector2(1230.2717, 6.045227)
+enemy_scenes = Array[PackedScene]([ExtResource("3_s7fe2")])
+max_total_spawns = 3
+respawn_delay = 2.0
+target_path = NodePath("../MageCharacterBody2D")
+spawn_point_limits = {
+"SpawnPoint1": 1,
+"SpawnPoint2": 1,
+"SpawnPoint3": 1,
+"SpawnPoint4": 1
+}
+key_scene = ExtResource("9_key")
+random_spawn = false
+
+[node name="SpawnPoint1" type="Marker2D" parent="EnemySpawner3"]
+position = Vector2(218, 95)
+
+[node name="SpawnPoint2" type="Marker2D" parent="EnemySpawner3"]
+position = Vector2(250, 57)
+
+[node name="SpawnPoint3" type="Marker2D" parent="EnemySpawner3"]
+position = Vector2(257, 104)
+
+[node name="PlayerHUD" parent="." instance=ExtResource("6_hud")]
+
+[node name="GameOver" parent="." instance=ExtResource("7_gameover")]
+
+[node name="PauseMenu" parent="." instance=ExtResource("8_pause")]
+
+[node name="CrateNode2D" parent="." instance=ExtResource("4_3c8vw")]
+position = Vector2(641.89355, 39.669167)

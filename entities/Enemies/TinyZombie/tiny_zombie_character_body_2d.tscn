@@ -1,0 +1,123 @@
+[gd_scene load_steps=20 format=3 uid="uid://csrhpvgctjy0n"]
+
+[ext_resource type="PackedScene" uid="uid://bacfhnw4iwivs" path="res://entities/Enemies/enemy_character_body_2d.tscn" id="1_io6xf"]
+[ext_resource type="Texture2D" uid="uid://d2dqq62408txt" path="res://entities/Enemies/TinyZombie/tiny_zombie_idle_anim_f0.png" id="2_ffdhb"]
+[ext_resource type="Texture2D" uid="uid://d4djlmoy43tpm" path="res://entities/Enemies/TinyZombie/tiny_zombie_hit_anim-sheet.png" id="2_fom44"]
+[ext_resource type="Texture2D" uid="uid://b565x2r2ee1ly" path="res://entities/Enemies/TinyZombie/tiny_zombie_idle_anim_f1.png" id="3_o8wxo"]
+[ext_resource type="Texture2D" uid="uid://d06aas777rmqf" path="res://entities/Enemies/TinyZombie/tiny_zombie_idle_anim_f2.png" id="4_5vc75"]
+[ext_resource type="Texture2D" uid="uid://ba8jui4ywf8ou" path="res://entities/Enemies/TinyZombie/tiny_zombie_idle_anim_f3.png" id="5_x5a3f"]
+[ext_resource type="Texture2D" uid="uid://btpsqety0nsgl" path="res://entities/Enemies/TinyZombie/tiny_zombie_run_anim_f0.png" id="6_201g8"]
+[ext_resource type="Texture2D" uid="uid://cl8gevgw5rgb1" path="res://entities/Enemies/TinyZombie/tiny_zombie_run_anim_f1.png" id="7_fom44"]
+[ext_resource type="Texture2D" uid="uid://yjc3o8fwngnw" path="res://entities/Enemies/TinyZombie/tiny_zombie_run_anim_f2.png" id="8_4aieq"]
+[ext_resource type="Texture2D" uid="uid://c1myrqy7vessy" path="res://entities/Enemies/TinyZombie/tiny_zombie_run_anim_f3.png" id="9_5ggfw"]
+[ext_resource type="PackedScene" uid="uid://cnawrd5f0kquw" path="res://mechanics/hurt_box_area_2d.tscn" id="11_5ggfw"]
+[ext_resource type="PackedScene" uid="uid://bio5e71ly3ea5" path="res://mechanics/hit_box_area_2d.tscn" id="12_lyaan"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4aieq"]
+atlas = ExtResource("2_fom44")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5ggfw"]
+atlas = ExtResource("2_fom44")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lyaan"]
+atlas = ExtResource("2_fom44")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_201g8"]
+animations = [{
+"frames": [],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4aieq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5ggfw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lyaan")
+}],
+"loop": false,
+"name": &"hit",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_ffdhb")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_o8wxo")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_5vc75")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_x5a3f")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 7.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_201g8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_fom44")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_4aieq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_5ggfw")
+}],
+"loop": true,
+"name": &"run",
+"speed": 7.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_201g8"]
+radius = 2.1916122
+height = 9.756657
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_1mo7i"]
+radius = 6.46892
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_c30mi"]
+radius = 5.628802
+
+[node name="TinyZombieCharacterBody2D" node_paths=PackedStringArray("_animation_sprite") instance=ExtResource("1_io6xf")]
+_animation_sprite = NodePath("AnimatedSprite2D")
+
+[node name="AnimatedSprite2D" parent="." index="0"]
+sprite_frames = SubResource("SpriteFrames_201g8")
+animation = &"hit"
+autoplay = "idle"
+frame = 2
+frame_progress = 1.0
+
+[node name="CollisionShape2D" parent="." index="1"]
+position = Vector2(0.5730858, 4.756607)
+rotation = 1.5707964
+shape = SubResource("CapsuleShape2D_201g8")
+
+[node name="HurtBoxArea2D" parent="." index="2" instance=ExtResource("11_5ggfw")]
+collision_mask = 256
+target_groups = ["player"]
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="HurtBoxArea2D" index="1"]
+position = Vector2(0.14066505, 0.088567734)
+shape = SubResource("CircleShape2D_1mo7i")
+debug_color = Color(0.9344128, 0.1669651, 0.49408865, 0.41960785)
+
+[node name="HitBoxArea2D" parent="." index="3" instance=ExtResource("12_lyaan")]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBoxArea2D" index="0"]
+position = Vector2(0.25528336, -0.020839691)
+shape = SubResource("CircleShape2D_c30mi")
+debug_color = Color(0, 0.62219167, 0.55081576, 0.41960785)

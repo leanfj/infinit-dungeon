@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://fyb2k1c08tbs"]
+
+[ext_resource type="Script" uid="uid://bx8m6hwtvjh5s" path="res://mechanics/enemy_spawner.gd" id="1_spawner"]
+
+[node name="EnemySpawner" type="Node2D"]
+script = ExtResource("1_spawner")
+
+[node name="RespawnTimer" type="Timer" parent="."]
+one_shot = true

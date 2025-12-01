@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://bacfhnw4iwivs"]
+
+[ext_resource type="Script" uid="uid://b7y0d5ju8sji4" path="res://entities/Enemies/enemy_character_body_2d.gd" id="1_42da6"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_6muyh"]
+
+[node name="EnemyCharacterBody2D" type="CharacterBody2D" groups=["enemies"]]
+script = ExtResource("1_42da6")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_6muyh")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]

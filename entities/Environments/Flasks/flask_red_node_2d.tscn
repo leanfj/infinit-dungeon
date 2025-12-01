@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://bpuwypg374ivm"]
+
+[ext_resource type="Texture2D" path="res://entities/Environments/Flasks/flask_red.png" id="1_tex"]
+[ext_resource type="Script" path="res://entities/Environments/Flasks/flask_red_node_2d.gd" id="2_script"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_pickup"]
+radius = 6.0
+
+[node name="FlaskRed" type="Area2D" groups=["flasks"]]
+script = ExtResource("2_script")
+collision_layer = 0
+collision_mask = 1
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_tex")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_pickup")
