@@ -19,6 +19,9 @@ signal keys_changed(count: int)
 @export var _player_health: int = 6
 @export var _knockback_strength: float = 150.0
 @export var key_count: int = 0
+const CharacterStats = preload("res://mechanics/character_stats.gd")
+
+@export var stats: Resource
 
 @export_category("Objetcs")
 @export var _animation_sprite: AnimatedSprite2D
@@ -26,8 +29,22 @@ signal keys_changed(count: int)
 @export var _weapon_node: Node2D
 @export var _fire_ball_marker: Marker2D
 @onready var _hit_box: HitBoxArea2D = $HitBoxArea2D
+@onready var _level_label: Label = get_node_or_null("LevelLabel")
 
 func _ready() -> void:
+	if stats == null:
+		stats = CharacterStats.new()
+	if stats is CharacterStats:
+		var cs := stats as CharacterStats
+		# push exported defaults into stats
+		cs.max_health = _max_health
+		cs.current_health = _player_health
+		cs.move_speed = _move_speed
+		# pull back to node
+		_move_speed = cs.move_speed
+		_max_health = cs.max_health
+		_player_health = cs.current_health
+		cs.leveled_up.connect(_on_stats_leveled_up)
 	_player_health = clamp(_player_health, 0, _max_health)
 	if _animation_weapon:
 		_animation_weapon.animation_finished.connect(_on_animation_player_animation_finished)
@@ -41,7 +58,39 @@ func heal(amount: int, max_cap: int = -1) -> void:
 	if max_cap >= 0:
 		cap = min(max_cap, _max_health)
 	_player_health = clamp(_player_health + amount, 0, cap)
+	if stats is CharacterStats:
+		(stats as CharacterStats).current_health = _player_health
 	_emit_health()
+
+
+func gain_experience(amount: int) -> void:
+	if not (stats is CharacterStats):
+		return
+	var cs := stats as CharacterStats
+	cs.gain_experience(amount)
+	_sync_from_stats()
+
+
+func _sync_from_stats() -> void:
+	if not (stats is CharacterStats):
+		return
+	var cs := stats as CharacterStats
+	_move_speed = cs.move_speed
+	_max_health = cs.max_health
+	_player_health = clamp(cs.current_health, 0, _max_health)
+	_emit_health()
+	_update_level_label()
+
+
+func _on_stats_leveled_up(_new_level: int) -> void:
+	_sync_from_stats()
+	_update_level_label()
+
+
+func _update_level_label() -> void:
+	if _level_label and stats is CharacterStats:
+		var cs := stats as CharacterStats
+		_level_label.text = "Lv %d" % cs.level
 
 func _physics_process(_delta: float) -> void:
 	if _knockback_timer > 0.0:
@@ -133,6 +182,8 @@ func _on_staff_animation_player_animation_finished(_anim_name: StringName) -> vo
 
 func _on_hit_box_hit_detected(amount: int, origin: Vector2) -> void:
 	_player_health -= amount
+	if stats is CharacterStats:
+		(stats as CharacterStats).apply_damage(amount)
 	_player_health = clamp(_player_health, 0, _max_health)
 	_emit_health()
 	_animation_sprite.play("hurt")

@@ -8,12 +8,15 @@ var _player: Node2D = null
 var _knockback_timer: float = 0.0
 var _knockback_direction: Vector2 = Vector2.ZERO
 var _is_hurt: bool = false
+var _is_dead: bool = false
 
 @export_category("Variables")
 @export var move_speed: float = 50.0
 @export var chase_range: float = 80.0
 @export var health: int = 3
 @export var knockback_strength: float = 50.0
+@export var stats: Resource
+@export var exp_reward: int = 3
 
 
 @export_category("Objects")
@@ -26,6 +29,12 @@ func _ready() -> void:
 	# Guarantee hit animation does not loop forever; needed for animation_finished handling.
 	if _animation_sprite and _animation_sprite.sprite_frames and _animation_sprite.sprite_frames.has_animation("hit"):
 		_animation_sprite.sprite_frames.set_animation_loop("hit", false)
+
+	if stats:
+		if stats.has_variable("move_speed"):
+			_move_speed = stats.move_speed
+		if stats.has_variable("current_health"):
+			health = stats.current_health
 
 	if _hit_box:
 		_hit_box.hit_detected.connect(_on_hit_box_hit_detected)
@@ -62,6 +71,8 @@ func _physics_process(_delta: float) -> void:
 	move_and_slide()
 
 func take_damage(amount: int, origin: Vector2 = Vector2.ZERO) -> void:
+	if stats and stats.has_method("apply_damage"):
+		stats.apply_damage(amount)
 	health -= amount
 	_is_hurt = true
 	var knockback_vector: Vector2 = (global_position - origin).normalized()
@@ -75,8 +86,12 @@ func take_damage(amount: int, origin: Vector2 = Vector2.ZERO) -> void:
 		_is_hurt = false
 		_animate()
 	else:
+		if _is_dead:
+			return
+		_is_dead = true
 		if _animation_sprite:
 			await _play_hit_animation(0.5)
+		_reward_player()
 		await get_tree().create_timer(0.05).timeout
 		queue_free()
 
@@ -116,6 +131,12 @@ func flip_towards_player() -> void:
 
 func _on_hit_box_hit_detected(amount: int, origin: Vector2) -> void:
 	take_damage(amount, origin)
+
+
+func _reward_player() -> void:
+	var player := _player if is_instance_valid(_player) else get_tree().get_first_node_in_group("player")
+	if player and player.has_method("gain_experience"):
+		player.gain_experience(exp_reward)
 
 
 func _play_hit_animation(wait_time: float) -> void:

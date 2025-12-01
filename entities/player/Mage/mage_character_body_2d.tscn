@@ -1,6 +1,7 @@
-[gd_scene load_steps=18 format=3 uid="uid://qmyxu3h5x66b"]
+[gd_scene load_steps=19 format=3 uid="uid://qmyxu3h5x66b"]
 
 [ext_resource type="PackedScene" uid="uid://ctskcvs7nxu4e" path="res://entities/player/player_character_body_2d.tscn" id="1_h22r1"]
+[ext_resource type="Resource" uid="uid://cfl0k3s3gg5yt" path="res://entities/player/Mage/Stats/player_mage_stats.tres" id="2_eimj0"]
 [ext_resource type="Texture2D" uid="uid://t0hmsqnvaa7c" path="res://entities/player/Mage/Sprites/wizzard_m_idle_anim_f0.png" id="2_luext"]
 [ext_resource type="Texture2D" uid="uid://blfy4i6rnjy" path="res://entities/player/Mage/Sprites/wizzard_m_hit_anim_f0.png" id="2_xr08a"]
 [ext_resource type="Texture2D" uid="uid://dqg83s34o7rup" path="res://entities/player/Mage/Sprites/wizzard_m_idle_anim_f1.png" id="3_xr08a"]
@@ -135,6 +136,7 @@ _data = {
 [node name="MageCharacterBody2D" node_paths=PackedStringArray("_animation_sprite", "_animation_weapon", "_weapon_node", "_fire_ball_marker") groups=["player"] instance=ExtResource("1_h22r1")]
 _primary_attack_name = "primary_attack"
 _secondary_attack_name = "secondary_attack"
+stats = ExtResource("2_eimj0")
 _animation_sprite = NodePath("AnimatedSprite2D")
 _animation_weapon = NodePath("StaffNode2D/StaffAnimationPlayer")
 _weapon_node = NodePath("StaffNode2D")
