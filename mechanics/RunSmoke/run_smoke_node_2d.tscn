@@ -1,6 +1,7 @@
-[gd_scene load_steps=15 format=3 uid="uid://bj0tdhbftiftt"]
+[gd_scene load_steps=16 format=3 uid="uid://bj0tdhbftiftt"]
 
 [ext_resource type="Texture2D" uid="uid://ccewrx6iswn76" path="res://mechanics/RunSmoke/Free Smoke Fx  Pixel 06.png" id="1_k1x8w"]
+[ext_resource type="Script" uid="uid://d30yw3ydt6gtc" path="res://mechanics/RunSmoke/run_smoke_node_2d.gd" id="2_script"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_rq6g3"]
 atlas = ExtResource("1_k1x8w")
@@ -89,16 +90,19 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_khsh4")
 }],
-"loop": true,
+"loop": false,
 "name": &"default",
-"speed": 18.0
+"speed": 13.0
 }]
 
 [node name="RunSmokeNode2D" type="Node2D"]
+script = ExtResource("2_script")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-position = Vector2(-63, 1)
+position = Vector2(-26, -8.344646e-07)
 rotation = -0.9023352
+scale = Vector2(0.3, 0.3)
 sprite_frames = SubResource("SpriteFrames_mjqmv")
-frame_progress = 0.25939646
+frame = 11
+frame_progress = 1.0
 centered = false

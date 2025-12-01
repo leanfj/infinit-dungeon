@@ -1,8 +1,10 @@
-[gd_scene load_steps=3 format=3 uid="uid://bacfhnw4iwivs"]
+[gd_scene load_steps=5 format=3 uid="uid://bacfhnw4iwivs"]
 
 [ext_resource type="Script" uid="uid://b7y0d5ju8sji4" path="res://entities/Enemies/enemy_character_body_2d.gd" id="1_42da6"]
+[ext_resource type="PackedScene" uid="uid://cf5m8oap12xy0" path="res://mechanics/shadow/shadow.tscn" id="2_kvi6x"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_6muyh"]
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_contact"]
 size = Vector2(10, 14)
 
@@ -16,9 +18,8 @@ sprite_frames = SubResource("SpriteFrames_6muyh")
 
 [node name="ContactArea2D" type="Area2D" parent="."]
 collision_layer = 0
-collision_mask = 1
-monitoring = true
-monitorable = true
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="ContactArea2D"]
 shape = SubResource("RectangleShape2D_contact")
+
+[node name="Shadow" parent="." instance=ExtResource("2_kvi6x")]

@@ -5,6 +5,8 @@ var _can_attack:bool = true
 var _attack_animation_name: String = ""
 var _knockback_timer: float = 0.0
 var _knockback_direction: Vector2 = Vector2.ZERO
+var _smoke_spawn_timer: float = 0.0
+var _smoke_spawn_interval: float = 0.1  # Spawn smoke every 0.1 seconds when moving
 
 signal health_changed(current: int, max: int)
 signal died
@@ -107,6 +109,7 @@ func _physics_process(_delta: float) -> void:
 	_move()
 	_attack()
 	_animate()
+	_spawn_smoke(_delta)
 
 func _attack() -> void:
 	if Input.is_action_pressed("primary_attack") and _can_attack:
@@ -234,3 +237,31 @@ func use_key(amount: int = 1) -> bool:
 
 func _emit_keys() -> void:
 	keys_changed.emit(key_count)
+
+
+func _spawn_smoke(_delta: float) -> void:
+	# Só spawn fumaça se estiver se movendo
+	if velocity.length() < 10.0:
+		_smoke_spawn_timer = 0.0
+		return
+	
+	_smoke_spawn_timer += _delta
+	
+	if _smoke_spawn_timer >= _smoke_spawn_interval:
+		_smoke_spawn_timer = 0.0
+		
+		var smoke_scene: PackedScene = preload("res://mechanics/RunSmoke/run_smoke_node_2d.tscn")
+		var smoke_instance: Node2D = smoke_scene.instantiate() as Node2D
+		
+		if get_parent():
+			get_parent().add_child(smoke_instance)
+			# Posiciona a fumaça atrás do player
+			smoke_instance.global_position = global_position
+			smoke_instance.position.y += 11.0
+			#Realizar o flip da fumaça baseado na direção do movimento
+			if velocity.x < 0:
+				smoke_instance.scale.x = -1.0
+			else:
+				smoke_instance.scale.x = 1.0
+			# Z-index menor para ficar atrás
+			smoke_instance.z_index = z_index - 1
