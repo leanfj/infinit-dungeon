@@ -3,6 +3,8 @@
 [ext_resource type="Script" uid="uid://b7y0d5ju8sji4" path="res://entities/Enemies/enemy_character_body_2d.gd" id="1_42da6"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_6muyh"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_contact"]
+size = Vector2(10, 14)
 
 [node name="EnemyCharacterBody2D" type="CharacterBody2D" groups=["enemies"]]
 script = ExtResource("1_42da6")
@@ -11,3 +13,12 @@ script = ExtResource("1_42da6")
 sprite_frames = SubResource("SpriteFrames_6muyh")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+
+[node name="ContactArea2D" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 1
+monitoring = true
+monitorable = true
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="ContactArea2D"]
+shape = SubResource("RectangleShape2D_contact")
