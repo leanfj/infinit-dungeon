@@ -1,0 +1,58 @@
+[gd_scene load_steps=2 format=3 uid="uid://ddp1e7y4m8civ"]
+
+[ext_resource type="Script" uid="uid://gld8fuipsd3f" path="res://menus/player_count_menu.gd" id="1_player_count"]
+
+[node name="PlayerCountMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_player_count")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.1, 0.1, 0.15, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -82.0
+offset_bottom = 82.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 20
+
+[node name="TitleLabel" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Select Player Count"
+horizontal_alignment = 1
+
+[node name="PlayerButtons" type="VBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="OnePlayerButton" type="Button" parent="VBoxContainer/PlayerButtons"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 15
+text = "1 Player"
+
+[node name="TwoPlayersButton" type="Button" parent="VBoxContainer/PlayerButtons"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 15
+text = "2 Players"
+
+[node name="BackButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 15
+text = "Back"

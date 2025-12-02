@@ -11,8 +11,12 @@ config_version=5
 [application]
 
 config/name="InfinitDungeon"
-run/main_scene="res://scenes/world_node_2d.tscn"
+run/main_scene="res://menus/main_menu.tscn"
 config/features=PackedStringArray("4.5", "GL Compatibility")
+
+[autoload]
+
+GameState="*res://mechanics/game_state.gd"
 
 [display]
 
