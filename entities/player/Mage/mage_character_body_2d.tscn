@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://qmyxu3h5x66b"]
+[gd_scene load_steps=20 format=3 uid="uid://qmyxu3h5x66b"]
 
 [ext_resource type="PackedScene" uid="uid://ctskcvs7nxu4e" path="res://entities/player/player_character_body_2d.tscn" id="1_h22r1"]
 [ext_resource type="Resource" uid="uid://cfl0k3s3gg5yt" path="res://entities/player/Mage/Stats/player_mage_stats.tres" id="2_eimj0"]
@@ -12,6 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://c0mpbr00vlg0a" path="res://entities/player/Mage/Sprites/wizzard_m_run_anim_f2.png" id="8_eembq"]
 [ext_resource type="Texture2D" uid="uid://cwsfqkk7mq86y" path="res://entities/player/Mage/Sprites/wizzard_m_run_anim_f3.png" id="9_0rk3v"]
 [ext_resource type="Texture2D" uid="uid://dfvwey8sw7ykr" path="res://entities/player/Mage/Staff/weapon_red_magic_staff.png" id="11_8f32o"]
+[ext_resource type="Texture2D" uid="uid://1kpcc8jcewk8" path="res://entities/player/Mage/crosshair005.png" id="13_diqys"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_ehqxe"]
 animations = [{
@@ -142,16 +143,19 @@ _animation_weapon = NodePath("StaffNode2D/StaffAnimationPlayer")
 _weapon_node = NodePath("StaffNode2D")
 _fire_ball_marker = NodePath("StaffNode2D/FireBallMarker2D")
 
-[node name="AnimatedSprite2D" parent="." index="1"]
+[node name="AnimatedSprite2D" parent="." index="0"]
 sprite_frames = SubResource("SpriteFrames_ehqxe")
 animation = &"idle"
 autoplay = "idle"
-frame_progress = 0.5493902
+frame_progress = 0.9127297
 
-[node name="CollisionShape2D" parent="." index="2"]
+[node name="CollisionShape2D" parent="." index="1"]
 position = Vector2(0, 11)
 rotation = 1.5707964
 shape = SubResource("CapsuleShape2D_xr08a")
+
+[node name="CollisionShape2D2" parent="HitBoxArea2D" index="0"]
+position = Vector2(0, 2)
 
 [node name="StaffNode2D" type="Node2D" parent="." index="3"]
 position = Vector2(1.1461716, 7.2292347)
@@ -171,10 +175,12 @@ libraries = {
 [node name="FireBallMarker2D" type="Marker2D" parent="StaffNode2D" index="2"]
 position = Vector2(10.457039, 0.8873863)
 
-[node name="CollisionShape2D2" parent="HitBoxArea2D" index="0"]
-position = Vector2(0, 2)
+[node name="Sprite2D" type="Sprite2D" parent="StaffNode2D/FireBallMarker2D" index="0"]
+position = Vector2(2.7508085, 0)
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("13_diqys")
 
-[node name="Camera2D" parent="." index="5"]
+[node name="Camera2D" parent="." index="4"]
 limit_smoothed = true
 terrain_path = NodePath("../TerrainManagerNode2D")
 

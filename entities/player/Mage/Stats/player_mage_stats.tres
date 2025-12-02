@@ -3,4 +3,6 @@
 [ext_resource type="Script" uid="uid://v67h1lhav615" path="res://mechanics/character_stats.gd" id="1_q5qm2"]
 
 [resource]
+resource_local_to_scene = true
 script = ExtResource("1_q5qm2")
+move_speed = 100.0

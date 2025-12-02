@@ -8,7 +8,7 @@ signal leveled_up(new_level: int)
 @export var experience_to_next: int = 5
 @export var max_health: int = 6
 @export var current_health: int = 6
-@export var move_speed: float = 128.0
+@export var move_speed: float = 100.0
 @export var damage: int = 1
 
 func apply_damage(amount: int) -> void:
