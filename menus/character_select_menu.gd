@@ -18,12 +18,15 @@ func _ready() -> void:
 	_setup_character_buttons()
 	_update_info_label()
 	
+	# Música já está tocando do menu anterior
+	
 	_back_button.pressed.connect(_on_back_pressed)
 	_start_button.pressed.connect(_on_start_pressed)
 	
-	# Connect mouse hover
+	# Connect mouse hover and button press
 	for i in range(_buttons.size()):
 		_buttons[i].mouse_entered.connect(_on_button_hovered.bind(i))
+		_buttons[i].pressed.connect(_on_button_pressed)
 	
 	_update_focus()
 
@@ -45,6 +48,7 @@ func _setup_character_buttons() -> void:
 func _input(event: InputEvent) -> void:
 	# Navigate left
 	if event.is_action_pressed("move_left"):
+		MenuAudio.play_button_hover()
 		_navigate_grid(-1)
 		var vp := get_viewport()
 		if vp:
@@ -52,6 +56,7 @@ func _input(event: InputEvent) -> void:
 	
 	# Navigate right
 	elif event.is_action_pressed("move_right"):
+		MenuAudio.play_button_hover()
 		_navigate_grid(1)
 		var vp := get_viewport()
 		if vp:
@@ -59,6 +64,7 @@ func _input(event: InputEvent) -> void:
 	
 	# Navigate up
 	elif event.is_action_pressed("move_up"):
+		MenuAudio.play_button_hover()
 		_selected_index = (_selected_index - 1 + _buttons.size()) % _buttons.size()
 		_update_focus()
 		var vp := get_viewport()
@@ -67,6 +73,7 @@ func _input(event: InputEvent) -> void:
 	
 	# Navigate down
 	elif event.is_action_pressed("move_down"):
+		MenuAudio.play_button_hover()
 		_selected_index = (_selected_index + 1) % _buttons.size()
 		_update_focus()
 		var vp := get_viewport()
@@ -98,8 +105,12 @@ func _update_focus() -> void:
 			_buttons[i].grab_focus()
 
 func _on_button_hovered(index: int) -> void:
+	MenuAudio.play_button_hover()
 	_selected_index = index
 	_update_focus()
+
+func _on_button_pressed() -> void:
+	MenuAudio.play_button_click()
 
 func _on_character_selected(character_name: String) -> void:
 	var next_player := _get_next_player_to_select()
@@ -130,6 +141,9 @@ func _on_start_pressed() -> void:
 	if _selections.size() != GameState.player_count:
 		_info_label.text = "Please select characters for all players!"
 		return
+	
+	# Parar música do menu ao iniciar o jogo
+	MenuAudio.stop_menu_music()
 	
 	# Store selections in GameState
 	GameState.selected_characters.clear()

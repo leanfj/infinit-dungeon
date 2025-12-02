@@ -10,18 +10,23 @@ func _ready() -> void:
 	_buttons = [_start_button, _quit_button]
 	_selected_index = 0
 	
+	# Iniciar música do menu
+	MenuAudio.play_menu_music()
+	
 	_start_button.pressed.connect(_on_start_pressed)
 	_quit_button.pressed.connect(_on_quit_pressed)
 	
-	# Connect mouse hover
+	# Connect mouse hover and button press
 	for i in range(_buttons.size()):
 		_buttons[i].mouse_entered.connect(_on_button_hovered.bind(i))
+		_buttons[i].pressed.connect(_on_button_pressed)
 	
 	_update_focus()
 
 func _input(event: InputEvent) -> void:
 	# Navigate up
 	if event.is_action_pressed("move_up"):
+		MenuAudio.play_button_hover()
 		_selected_index = (_selected_index - 1 + _buttons.size()) % _buttons.size()
 		_update_focus()
 		var vp := get_viewport()
@@ -30,6 +35,7 @@ func _input(event: InputEvent) -> void:
 	
 	# Navigate down
 	elif event.is_action_pressed("move_down"):
+		MenuAudio.play_button_hover()
 		_selected_index = (_selected_index + 1) % _buttons.size()
 		_update_focus()
 		var vp := get_viewport()
@@ -50,8 +56,12 @@ func _update_focus() -> void:
 			_buttons[i].grab_focus()
 
 func _on_button_hovered(index: int) -> void:
+	MenuAudio.play_button_hover()
 	_selected_index = index
 	_update_focus()
+
+func _on_button_pressed() -> void:
+	MenuAudio.play_button_click()
 
 func _on_start_pressed() -> void:
 	get_tree().change_scene_to_file("res://menus/player_count_menu.tscn")

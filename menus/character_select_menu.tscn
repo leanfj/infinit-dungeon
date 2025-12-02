@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://c7o4y6m8civ"]
+[gd_scene load_steps=3 format=3 uid="uid://c7o4y6m8civ"]
 
 [ext_resource type="Script" uid="uid://dwy1wsr5p5r6s" path="res://menus/character_select_menu.gd" id="1_char_select"]
+[ext_resource type="Texture2D" uid="uid://d22ewdjgiwsok" path="res://menus/dungeon background 10.png" id="2_fr6rf"]
 
 [node name="CharacterSelectMenu" type="Control"]
 layout_mode = 3
@@ -11,14 +12,16 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_char_select")
 
-[node name="ColorRect" type="ColorRect" parent="."]
+[node name="TextureRect" type="TextureRect" parent="."]
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0.1, 0.1, 0.15, 1)
+anchors_preset = -1
+anchor_right = 1.0666671
+anchor_bottom = 1.2641981
+offset_right = 1228.7998
+offset_bottom = 819.19995
+scale = Vector2(0.20000008, 0.20000008)
+texture = ExtResource("2_fr6rf")
+metadata/_edit_use_anchors_ = true
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
@@ -27,7 +30,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 20
+theme_override_constants/separation = 10
 
 [node name="TitleLabel" type="Label" parent="VBoxContainer"]
 layout_mode = 2
