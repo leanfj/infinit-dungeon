@@ -35,7 +35,6 @@ const AutoAim = preload("res://mechanics/aim/auto_aim.gd")
 @export var _weapon_node: Node2D
 @export var _fire_ball_marker: Marker2D
 @onready var _hit_box: HitBoxArea2D = $HitBoxArea2D
-@onready var _level_label: Label = get_node_or_null("LevelLabel")
 
 func _ready() -> void:
 	if stats == null:
@@ -87,7 +86,6 @@ func _sync_from_stats() -> void:
 	_max_health = cs.max_health
 	_player_health = clamp(cs.current_health, 0, _max_health)
 	_emit_health()
-	_update_level_label()
 
 
 func _on_stats_leveled_up(_new_level: int) -> void:
@@ -95,13 +93,6 @@ func _on_stats_leveled_up(_new_level: int) -> void:
 		var cs := stats as CharacterStats
 		cs.current_health = cs.max_health
 	_sync_from_stats()
-	_update_level_label()
-
-
-func _update_level_label() -> void:
-	if _level_label and stats is CharacterStats:
-		var cs := stats as CharacterStats
-		_level_label.text = "Lv %d" % cs.level
 
 func _physics_process(_delta: float) -> void:
 	if _knockback_timer > 0.0:

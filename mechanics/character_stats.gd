@@ -2,6 +2,7 @@ extends Resource
 class_name CharacterStats
 
 signal leveled_up(new_level: int)
+signal experience_gained(current_exp: int, exp_to_next: int)
 
 @export var level: int = 1
 @export var experience: int = 0
@@ -19,6 +20,7 @@ func heal(amount: int) -> void:
 
 func gain_experience(amount: int) -> void:
 	experience += amount
+	experience_gained.emit(experience, experience_to_next)
 	while experience >= experience_to_next:
 		experience -= experience_to_next
 		_level_up()
