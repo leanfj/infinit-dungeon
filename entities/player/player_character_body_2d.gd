@@ -7,6 +7,9 @@ var _knockback_timer: float = 0.0
 var _knockback_direction: Vector2 = Vector2.ZERO
 var _smoke_spawn_timer: float = 0.0
 var _smoke_spawn_interval: float = 0.1  # Spawn smoke every 0.1 seconds when moving
+var _auto_aim_target: Node2D = null
+@export var auto_aim_enabled: bool = true
+@export var auto_aim_radius: float = 256.0
 
 signal health_changed(current: int, max: int)
 signal died
@@ -21,7 +24,8 @@ signal keys_changed(count: int)
 @export var _player_health: int = 6
 @export var _knockback_strength: float = 150.0
 @export var key_count: int = 0
-const CharacterStats = preload("res://mechanics/character_stats.gd")
+const CharacterStatsRes = preload("res://mechanics/character_stats.gd")
+const AutoAim = preload("res://mechanics/aim/auto_aim.gd")
 
 @export var stats: Resource
 
@@ -35,7 +39,7 @@ const CharacterStats = preload("res://mechanics/character_stats.gd")
 
 func _ready() -> void:
 	if stats == null:
-		stats = CharacterStats.new()
+		stats = CharacterStatsRes.new()
 	if stats is CharacterStats:
 		var cs := stats as CharacterStats
 		# push exported defaults into stats
@@ -110,6 +114,7 @@ func _physics_process(_delta: float) -> void:
 	_attack()
 	_animate()
 	_spawn_smoke(_delta)
+	_update_auto_aim()
 
 func _attack() -> void:
 	if Input.is_action_pressed("primary_attack") and _can_attack:
@@ -128,8 +133,8 @@ func _start_attack(anim_name: String) -> void:
 			var fire_ball_instance: Area2D = fire_ball_scene.instantiate() as Area2D
 			get_parent().add_child(fire_ball_instance)
 			fire_ball_instance.global_position = _fire_ball_marker.global_position
-			var mouse_direction: Vector2 = (get_global_mouse_position() - global_position).normalized()
-			fire_ball_instance.set_direction(mouse_direction)
+			var shoot_dir: Vector2 = _get_fire_direction()
+			fire_ball_instance.set_direction(shoot_dir)
 	
 func _move() -> void:
 	var _direction: Vector2 = Input.get_vector(
@@ -172,6 +177,13 @@ func _animate() -> void:
 		return
 		
 	_animation_sprite.play("idle")
+
+func _get_fire_direction() -> Vector2:
+	# When auto-aim is enabled and a valid target exists (e.g., gamepad in use),
+	# shoot towards the target; otherwise follow mouse direction.
+	if auto_aim_enabled and _auto_aim_target and is_instance_valid(_auto_aim_target):
+		return (_auto_aim_target.global_position - global_position).normalized()
+	return (get_global_mouse_position() - global_position).normalized()
 
 
 
@@ -237,6 +249,30 @@ func use_key(amount: int = 1) -> bool:
 
 func _emit_keys() -> void:
 	keys_changed.emit(key_count)
+
+func _update_auto_aim() -> void:
+	if not auto_aim_enabled:
+		return
+	# Detect gamepad usage: if any joypad connected and no mouse movement dominance
+	var joypads := Input.get_connected_joypads()
+	if joypads.size() == 0:
+		return
+	# Clear invalid target
+	if _auto_aim_target and not is_instance_valid(_auto_aim_target):
+		_auto_aim_target = null
+	# Choose nearest enemy
+	var new_target := AutoAim.find_nearest_enemy(get_tree(), global_position, auto_aim_radius)
+	if new_target != _auto_aim_target:
+		# Unhighlight previous
+		if _auto_aim_target and is_instance_valid(_auto_aim_target):
+			AutoAim.set_highlight(_auto_aim_target, false)
+		_auto_aim_target = new_target
+		if _auto_aim_target and is_instance_valid(_auto_aim_target):
+			AutoAim.set_highlight(_auto_aim_target, true)
+	# Aim weapon towards target when present
+	if _auto_aim_target and is_instance_valid(_weapon_node):
+		var dir := (_auto_aim_target.global_position - global_position).normalized()
+		_weapon_node.rotation = dir.angle()
 
 
 func _spawn_smoke(_delta: float) -> void:
