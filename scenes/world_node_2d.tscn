@@ -1,7 +1,8 @@
-[gd_scene load_steps=11 format=3 uid="uid://c2fblspghiug7"]
+[gd_scene load_steps=13 format=3 uid="uid://c2fblspghiug7"]
 
 [ext_resource type="PackedScene" uid="uid://qmyxu3h5x66b" path="res://entities/player/Mage/mage_character_body_2d.tscn" id="1_2b7d3"]
 [ext_resource type="PackedScene" uid="uid://cynf30wlahial" path="res://terrain/terrain_manager_node_2d.tscn" id="1_mav38"]
+[ext_resource type="Script" uid="uid://v67h1lhav615" path="res://mechanics/character_stats.gd" id="2_7uplh"]
 [ext_resource type="PackedScene" uid="uid://csrhpvgctjy0n" path="res://entities/Enemies/TinyZombie/tiny_zombie_character_body_2d.tscn" id="3_s7fe2"]
 [ext_resource type="PackedScene" uid="uid://clhr7bec6px7p" path="res://entities/Environments/Crate/crate_node_2d.tscn" id="4_3c8vw"]
 [ext_resource type="PackedScene" path="res://mechanics/enemy_spawner.tscn" id="5_spawner"]
@@ -11,13 +12,17 @@
 [ext_resource type="PackedScene" path="res://entities/Environments/Keys/key_node_2d.tscn" id="9_key"]
 [ext_resource type="PackedScene" uid="uid://bpuwypg374ivm" path="res://entities/Environments/Flasks/flask_red_node_2d.tscn" id="10_og367"]
 
+[sub_resource type="Resource" id="Resource_7uplh"]
+resource_local_to_scene = true
+script = ExtResource("2_7uplh")
+
 [node name="WorldNode2D" type="Node2D"]
 y_sort_enabled = true
 
 [node name="MageCharacterBody2D" parent="." instance=ExtResource("1_2b7d3")]
-z_index = 1
 position = Vector2(84, 59)
 _move_speed = 100.0
+stats = SubResource("Resource_7uplh")
 
 [node name="TerrainManagerNode2D" parent="." instance=ExtResource("1_mav38")]
 

@@ -1,0 +1,67 @@
+[gd_scene load_steps=12 format=3 uid="uid://boblub73c3jp8"]
+
+[ext_resource type="PackedScene" uid="uid://ctskcvs7nxu4e" path="res://entities/player/player_character_body_2d.tscn" id="1_wo3n6"]
+[ext_resource type="Texture2D" uid="uid://cdcsakd1sy2xk" path="res://entities/player/Warrior/knight_m_idle_anim_f0.png" id="2_8c0qr"]
+[ext_resource type="Texture2D" uid="uid://dsorpu4p1fme5" path="res://entities/player/Warrior/knight_m_idle_anim_f1.png" id="3_gqg7i"]
+[ext_resource type="Texture2D" uid="uid://0m3flj03m0x6" path="res://entities/player/Warrior/knight_m_idle_anim_f2.png" id="4_g0muo"]
+[ext_resource type="Texture2D" uid="uid://bdjhnwyb6x8m0" path="res://entities/player/Warrior/knight_m_idle_anim_f3.png" id="5_ibqd2"]
+[ext_resource type="Texture2D" uid="uid://37mvamp7vjwo" path="res://entities/player/Warrior/knight_m_run_anim_f0.png" id="6_l8vrv"]
+[ext_resource type="Texture2D" uid="uid://py4g32t402ep" path="res://entities/player/Warrior/knight_m_run_anim_f1.png" id="7_ssa8b"]
+[ext_resource type="Texture2D" uid="uid://bc3bxhhb511us" path="res://entities/player/Warrior/knight_m_run_anim_f2.png" id="8_k4nu0"]
+[ext_resource type="Texture2D" uid="uid://c1lpgykvbujsk" path="res://entities/player/Warrior/knight_m_run_anim_f3.png" id="9_kkwfg"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_l8vrv"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_8c0qr")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_gqg7i")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_g0muo")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_ibqd2")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_l8vrv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_ssa8b")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_k4nu0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_kkwfg")
+}],
+"loop": true,
+"name": &"run",
+"speed": 10.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ssa8b"]
+radius = 2.0
+height = 14.0
+
+[node name="WarriorPlayerCharacterBody2D" node_paths=PackedStringArray("_animation_sprite") instance=ExtResource("1_wo3n6")]
+_animation_sprite = NodePath("AnimatedSprite2D")
+
+[node name="AnimatedSprite2D" parent="." index="0"]
+position = Vector2(0, -3)
+sprite_frames = SubResource("SpriteFrames_l8vrv")
+animation = &"idle"
+autoplay = "idle"
+frame_progress = 0.0049201646
+
+[node name="CollisionShape2D" parent="." index="1"]
+position = Vector2(0, 9)
+rotation = 1.5707964
+shape = SubResource("CapsuleShape2D_ssa8b")
