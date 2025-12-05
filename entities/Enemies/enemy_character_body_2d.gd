@@ -1,11 +1,17 @@
 extends CharacterBody2D
+class_name EnemyCharacterBody2D
+
 const CharacterStats = preload("res://mechanics/character_stats.gd")
 
 # Enemy that chases the player inside a range and dies on hit.
+@onready var _hit_box: HitBoxArea2D = get_node_or_null("HitBoxArea2D")
+@onready var hurt_audio_stream_player_2d: AudioStreamPlayer2D = $HurtAudioStreamPlayer2D
+@onready var death_audio_stream_player_2d: AudioStreamPlayer2D = $DeathAudioStreamPlayer2D
+
+var deathExplosionParticles2D = preload("res://mechanics/death_cpu_particles_2d.tscn")
 var _move_speed: float = 50.0
 var _chase_range: float = 80.0
 var _player: Node2D = null
-@onready var _hit_box: HitBoxArea2D = get_node_or_null("HitBoxArea2D")
 var _knockback_timer: float = 0.0
 var _knockback_direction: Vector2 = Vector2.ZERO
 var _is_hurt: bool = false
@@ -64,7 +70,7 @@ func _physics_process(_delta: float) -> void:
 	if not is_instance_valid(_player):
 		_set_player_reference()
 
-	if _player:
+	if _player and not _is_dead:
 		var distance_to_player: float = global_position.distance_to(_player.global_position)
 		if distance_to_player <= _chase_range:
 			var direction: Vector2 = (_player.global_position - global_position).normalized()
@@ -93,6 +99,9 @@ func take_damage(amount: int, origin: Vector2 = Vector2.ZERO) -> void:
 	_knockback_timer = 0.15
 
 	if health > 0 and _animation_sprite:
+		if hurt_audio_stream_player_2d:
+			hurt_audio_stream_player_2d.play()
+		_particles_death_effect()
 		await _play_hit_animation(0.5)
 		_is_hurt = false
 		_animate()
@@ -101,9 +110,17 @@ func take_damage(amount: int, origin: Vector2 = Vector2.ZERO) -> void:
 			return
 		_is_dead = true
 		if _animation_sprite:
+			if hurt_audio_stream_player_2d:
+				hurt_audio_stream_player_2d.play()
 			await _play_hit_animation(0.5)
 		_reward_player()
-		await get_tree().create_timer(0.05).timeout
+		
+		if death_audio_stream_player_2d:
+			death_audio_stream_player_2d.play()
+		velocity = Vector2.ZERO
+		_animate()
+		await get_tree().create_timer(1).timeout
+
 		queue_free()
 
 func enemy_attack() -> void:
@@ -111,15 +128,16 @@ func enemy_attack() -> void:
 	pass
 
 func _animate() -> void:
-	if _is_hurt:
-		return
-
 	if velocity.length() > 0:
 		if _animation_sprite and _animation_sprite.animation != "run":
 			_animation_sprite.play("run")
-	else:
+	elif velocity.length() == 0 and not _is_hurt and not _is_dead:
 		if _animation_sprite and _animation_sprite.animation != "idle":
 			_animation_sprite.play("idle")
+	else:
+		if _is_dead:
+			if _animation_sprite and _animation_sprite.animation != "dead":
+				_animation_sprite.play("dead")
 
 func _set_player_reference() -> void:
 	# Order: explicit path -> first node in group \"player\" -> sibling named PlayerCharacterBody2D.
@@ -196,4 +214,16 @@ func _get_contact_target() -> Node2D:
 func _play_hit_animation(wait_time: float) -> void:
 	if _animation_sprite:
 		_animation_sprite.play("hit")
+		
 	await get_tree().create_timer(wait_time).timeout
+	
+func _play_death_sound() -> void:
+	if death_audio_stream_player_2d:
+		death_audio_stream_player_2d.play()
+
+
+func _particles_death_effect() -> void:
+	var death_particles = deathExplosionParticles2D.instantiate()
+	death_particles.z_index = z_index + 1
+	death_particles.global_position = global_position
+	get_tree().current_scene.add_child(death_particles)

@@ -23,3 +23,7 @@ collision_layer = 0
 shape = SubResource("RectangleShape2D_contact")
 
 [node name="Shadow" parent="." instance=ExtResource("2_kvi6x")]
+
+[node name="HurtAudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+
+[node name="DeathAudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
