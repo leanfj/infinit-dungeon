@@ -1,7 +1,7 @@
 extends CharacterBody2D
 class_name EnemyCharacterBody2D
 
-const CharacterStats = preload("res://mechanics/character_stats.gd")
+const EnemyStatsInstance = preload("res://mechanics/enemy_stats.gd")
 
 # Enemy that chases the player inside a range and dies on hit.
 @onready var _hit_box: HitBoxArea2D = get_node_or_null("HitBoxArea2D")
@@ -44,16 +44,18 @@ func _ready() -> void:
 	if _animation_sprite and _animation_sprite.sprite_frames and _animation_sprite.sprite_frames.has_animation("hit"):
 		_animation_sprite.sprite_frames.set_animation_loop("hit", false)
 
-	if stats is CharacterStats:
-		_move_speed = (stats as CharacterStats).move_speed
-		health = (stats as CharacterStats).current_health
+	if stats is EnemyStats:
+		_move_speed = (stats as EnemyStats).move_speed
+		health = randi_range((stats as EnemyStats).min_health, (stats as EnemyStats).max_health)
+		contact_damage = (stats as EnemyStats).damage
+		exp_reward = (stats as EnemyStats).experience
 
 	if _hit_box:
 		_hit_box.hit_detected.connect(_on_hit_box_hit_detected)
 	if _contact_area:
 		_contact_area.body_entered.connect(_on_contact_body_entered)
 		_contact_area.body_exited.connect(_on_contact_body_exited)
-	_move_speed = move_speed
+	# _move_speed = move_speed
 	_chase_range = chase_range
 	_set_player_reference()
 
@@ -88,6 +90,8 @@ func _physics_process(_delta: float) -> void:
 	_handle_contact_damage()
 
 func take_damage(amount: int, origin: Vector2 = Vector2.ZERO) -> void:
+	if _is_dead:
+		return
 	if stats and stats.has_method("apply_damage"):
 		stats.apply_damage(amount)
 	health -= amount
@@ -109,6 +113,7 @@ func take_damage(amount: int, origin: Vector2 = Vector2.ZERO) -> void:
 		if _is_dead:
 			return
 		_is_dead = true
+		
 		if _animation_sprite:
 			if hurt_audio_stream_player_2d:
 				hurt_audio_stream_player_2d.play()
@@ -128,7 +133,7 @@ func enemy_attack() -> void:
 	pass
 
 func _animate() -> void:
-	if velocity.length() > 0:
+	if velocity.length() > 0 and not _is_hurt and not _is_dead:
 		if _animation_sprite and _animation_sprite.animation != "run":
 			_animation_sprite.play("run")
 	elif velocity.length() == 0 and not _is_hurt and not _is_dead:
@@ -140,7 +145,6 @@ func _animate() -> void:
 				_animation_sprite.play("dead")
 
 func _set_player_reference() -> void:
-	# Order: explicit path -> first node in group \"player\" -> sibling named PlayerCharacterBody2D.
 	if _player_path != NodePath(""):
 		_player = get_node_or_null(_player_path) as Node2D
 	if _player == null:
@@ -190,7 +194,8 @@ func _apply_contact_damage(target: Node2D) -> void:
 		return
 	var hitbox: Node = target.get_node_or_null("HitBoxArea2D")
 	if hitbox and hitbox.has_method("take_damage"):
-		hitbox.take_damage(contact_damage, global_position)
+		if not _is_dead:
+			hitbox.take_damage(contact_damage, global_position)
 
 
 func _on_contact_body_entered(body: Node) -> void:
