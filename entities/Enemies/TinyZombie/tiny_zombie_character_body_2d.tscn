@@ -151,9 +151,10 @@ stream_0/stream = ExtResource("13_c30mi")
 stream_1/stream = ExtResource("14_lxsjy")
 stream_2/stream = ExtResource("15_om00g")
 
-[node name="TinyZombieCharacterBody2D" instance=ExtResource("1_io6xf")]
+[node name="TinyZombieCharacterBody2D" node_paths=PackedStringArray("_animation_sprite") instance=ExtResource("1_io6xf")]
 script = ExtResource("2_om00g")
 stats = ExtResource("3_mxi7k")
+_animation_sprite = NodePath("AnimatedSprite2D")
 
 [node name="AnimatedSprite2D" parent="." index="0"]
 sprite_frames = SubResource("SpriteFrames_201g8")
@@ -166,6 +167,7 @@ rotation = 1.5707964
 shape = SubResource("CapsuleShape2D_201g8")
 
 [node name="HurtBoxArea2D" parent="." index="2" instance=ExtResource("11_5ggfw")]
+monitoring = false
 target_groups = Array[String](["player"])
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="HurtBoxArea2D" index="1"]
@@ -182,6 +184,12 @@ debug_color = Color(0, 0.62219167, 0.55081576, 0.41960785)
 
 [node name="HurtAudioStreamPlayer2D" parent="." index="6"]
 stream = SubResource("AudioStreamRandomizer_om00g")
+volume_db = -20.223
+pitch_scale = 0.93
+attenuation = 3.4822013
 
 [node name="DeathAudioStreamPlayer2D" parent="." index="7"]
 stream = ExtResource("16_lxsjy")
+volume_db = -30.0
+pitch_scale = 1.02
+attenuation = 5.656854

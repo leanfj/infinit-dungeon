@@ -276,6 +276,10 @@ func _has_available_point() -> bool:
 			return true
 	return false
 
+func _last_enemy_global_position() -> Vector2:
+	if _last_spawn_point_index >=0 and _last_spawn_point_index < _spawn_points.size():
+		return _spawn_points[_last_spawn_point_index].global_position
+	return global_position
 
 func _emit_cleared() -> void:
 	if _cleared_emitted:
@@ -294,21 +298,21 @@ func _spawn_key_drop() -> void:
 	if parent == null:
 		return
 	parent.add_child(key)
-	var player := get_tree().get_first_node_in_group("player") if get_tree() else null
-	if player and player is Node2D:
-		#precisamos garantir que a posicao nao seja exatamente a do player e nem fora da tela ou algo assim
-		# var offset := Vector2(20, 0)
-		# key.global_position = player.global_position + offset
+	# var player := get_tree().get_first_node_in_group("player") if get_tree() else null
+	# if player and player is Node2D:
+	# 	#precisamos garantir que a posicao nao seja exatamente a do player e nem fora da tela ou algo assim
+	# 	# var offset := Vector2(20, 0)
+	# 	# key.global_position = player.global_position + offset
 
-		var offset := Vector2(
-			_rng.randf_range(-25.0, 25.0),
-			_rng.randf_range(-25.0, 25.0)
-		)
+	# 	var offset := Vector2(
+	# 		_rng.randf_range(-25.0, 25.0),
+	# 		_rng.randf_range(-25.0, 25.0)
+	# 	)
 
-		key.global_position = player.global_position + offset
+	# 	key.global_position = player.global_position + offset
 		
-	elif parent is Node2D:
-		key.global_position = parent.global_position
+	# elif parent is Node2D:
+	key.global_position = _last_enemy_global_position()
 
 func _find_free_position(base_pos: Vector2) -> Vector2:
 	if min_spawn_spacing <= 0.0:

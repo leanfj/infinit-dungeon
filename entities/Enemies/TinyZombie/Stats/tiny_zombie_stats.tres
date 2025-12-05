@@ -4,6 +4,7 @@
 
 [resource]
 script = ExtResource("1_625dm")
-experience = 2
+experience = 1
 max_health = 3
+current_health = 3
 move_speed = 25.0

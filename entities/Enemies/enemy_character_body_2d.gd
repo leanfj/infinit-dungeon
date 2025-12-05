@@ -7,6 +7,8 @@ const EnemyStatsInstance = preload("res://mechanics/enemy_stats.gd")
 @onready var _hit_box: HitBoxArea2D = get_node_or_null("HitBoxArea2D")
 @onready var hurt_audio_stream_player_2d: AudioStreamPlayer2D = $HurtAudioStreamPlayer2D
 @onready var death_audio_stream_player_2d: AudioStreamPlayer2D = $DeathAudioStreamPlayer2D
+@onready var collision_shape_2d: CollisionShape2D = $CollisionShape2D
+@onready var _contact_area: Area2D = get_node_or_null("ContactArea2D")
 
 var deathExplosionParticles2D = preload("res://mechanics/death_cpu_particles_2d.tscn")
 var _move_speed: float = 50.0
@@ -35,7 +37,7 @@ var _contact_targets: Array[Node2D] = []
 @export_category("Objects")
 @export var _animation_sprite: AnimatedSprite2D
 @export var _player_path: NodePath
-@onready var _contact_area: Area2D = get_node_or_null("ContactArea2D")
+
 
 func _ready() -> void:
 	if _animation_sprite == null:
@@ -60,6 +62,8 @@ func _ready() -> void:
 	_set_player_reference()
 
 func _physics_process(_delta: float) -> void:
+	if _is_dead:
+		return
 	_contact_timer = max(0.0, _contact_timer - _delta)
 	if _knockback_timer > 0.0:
 		_knockback_timer -= _delta
@@ -113,7 +117,9 @@ func take_damage(amount: int, origin: Vector2 = Vector2.ZERO) -> void:
 		if _is_dead:
 			return
 		_is_dead = true
-		
+
+		collision_shape_2d.set_deferred("disabled", true)
+	
 		if _animation_sprite:
 			if hurt_audio_stream_player_2d:
 				hurt_audio_stream_player_2d.play()
@@ -124,7 +130,7 @@ func take_damage(amount: int, origin: Vector2 = Vector2.ZERO) -> void:
 			death_audio_stream_player_2d.play()
 		velocity = Vector2.ZERO
 		_animate()
-		await get_tree().create_timer(1).timeout
+		await get_tree().create_timer(0.6).timeout
 
 		queue_free()
 
@@ -173,9 +179,13 @@ func _reward_player() -> void:
 
 
 func _handle_contact_damage() -> void:
-	if _is_dead or _is_hurt:
+	if _is_dead:
+		return
+	if _is_hurt:
 		return
 	if _contact_timer > 0.0:
+		return
+	if not _contact_area or not _contact_area.monitoring:
 		return
 	var target := _get_contact_target()
 	if target == null:
@@ -194,8 +204,7 @@ func _apply_contact_damage(target: Node2D) -> void:
 		return
 	var hitbox: Node = target.get_node_or_null("HitBoxArea2D")
 	if hitbox and hitbox.has_method("take_damage"):
-		if not _is_dead:
-			hitbox.take_damage(contact_damage, global_position)
+		hitbox.take_damage(contact_damage, global_position)
 
 
 func _on_contact_body_entered(body: Node) -> void:
